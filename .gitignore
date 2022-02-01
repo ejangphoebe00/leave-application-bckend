@@ -1,0 +1,8 @@
+# personal files <conrad>
+env
+.env
+*/__pycache__
+__pycache__
+app.cpython*
+*/__pycache__/__init__.*
+
