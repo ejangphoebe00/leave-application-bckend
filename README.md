@@ -1,5 +1,6 @@
 # my-flask-boilerplate
-This is a flask-file structure boilerplate that can be used to develop simple flask APIs.
+This is a flask-file structure boilerplate that can be used to develop simple flask APIs. <br>
+It can be cloned and used for every new project with slight modification.
 
 # Usage
 ## clone repo
