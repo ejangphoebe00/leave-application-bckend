@@ -40,7 +40,8 @@ def create_app():
 
     with app.app_context():
         # import models
-        from .models import (Token
+        from .models import (Token, Address, Application, LoginHistory, User,
+                                Recommendations
                              )
 
         # Import controller blueprints
