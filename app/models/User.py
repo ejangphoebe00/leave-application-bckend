@@ -65,7 +65,6 @@ class User(db.Model):
     ModifiedOn = db.Column(db.DateTime,default=datetime.utcnow,onupdate=db.func.current_timestamp())
     ModifiedBy = db.Column(db.NVARCHAR(255),nullable=True)
     RecordChangeStamp = db.Column(db.NVARCHAR(100),nullable=True)
-    DefaultPassword = db.Column(db.NVARCHAR(255),nullable=True)
     DefaultChangeDate = db.Column(db.DateTime,default=datetime.utcnow, onupdate=db.func.current_timestamp())
     PasswordChangeDate = db.Column(db.DateTime,default=db.func.current_timestamp(),nullable=True)
     Applications = db.relationship('la_t_Applications', backref='la_t_User', lazy=True)
@@ -90,10 +89,7 @@ class User(db.Model):
         '''Check the password against it's hash to validates the user's password
             (returns True if passwords match)
         '''
-        if self.UserPassword is not None:
-            return Bcrypt().check_password_hash(self.UserPassword, password)
-        else:
-            return Bcrypt().check_password_hash(self.DefaultPassword, password)
+        return Bcrypt().check_password_hash(self.UserPassword, password)
     
     def save(self):
         db.session.add(self)
