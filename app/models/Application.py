@@ -5,9 +5,9 @@ from datetime import datetime
 
 class ApplicantLevelEnum(str, enum.Enum):
     Staff = "Staff"
-    Supervisor = "Supervisor"
-    ManagerDirector = "ManagerDirector" 
-    ManagingDirector = "ManagingDirector"
+    Senior_officer = "Senior Officer"
+    Manager = "Manager"
+    Director = "Director"
 
 class LeaveTypeEnum(str, enum.Enum):
     Annual = "Annual Leave"
