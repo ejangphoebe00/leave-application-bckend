@@ -37,6 +37,9 @@ class Config(object):
     # MAIL_DEFAULT_SENDER = environ.get('MAIL_DEFAULT_SENDER')
     # SECURITY_PASSWORD_SALT = environ.get('SECURITY_PASSWORD_SALT')
 
+    # pagination
+    NUM_OF_ITEMS_PER_PAGE = 18
+    
 class DevelopmentConfig(Config):
     """ app development configuration class """
     ENV = "development"

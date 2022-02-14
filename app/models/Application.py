@@ -25,7 +25,7 @@ class Application(db.Model):
     __tablename__ = 'la_t_Applications'
     ApplicationId = db.Column(db.Integer,primary_key=True)
     ApplicantLevel = db.Column(db.Integer, db.ForeignKey(User.UserId),nullable=False) 
-    SpecificApplicantLevel = db.Column(db.Enum(ApplicantLevelEnum,
+    Designation = db.Column(db.Enum(ApplicantLevelEnum,
                                      values_callable=lambda x: [str(e.value) for e in ApplicantLevelEnum]),
                                      nullable=False) 
     ApplicantId = db.Column(db.Integer, db.ForeignKey(User.UserId),nullable=False) 
