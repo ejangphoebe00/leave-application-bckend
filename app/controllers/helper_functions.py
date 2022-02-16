@@ -32,7 +32,7 @@ def upload_file(file):
     if file.filename == "":
         return None
     filename = secure_filename(file.filename)
-    path = "backend/static/files"
+    path = "app/static/files"
     file.save(os.path.join(current_app.root_path,"static/files",filename))
     # print(os.path.join(path,filename))
     file_path = path+"/"+filename

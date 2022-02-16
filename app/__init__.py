@@ -46,12 +46,14 @@ def create_app():
 
         # Import controller blueprints
         '''Controller blueprints'''
-        # from .controllers.auth import auth_bp, create_default_user
+        from .controllers.user import auth_bp
+        from .controllers.application import application_bp
         
 
         # Register Blueprints
         '''registered blueprints'''
-        # app.register_blueprint(auth_bp)
+        app.register_blueprint(auth_bp)
+        app.register_blueprint(application_bp)
         
 
         # revoke tokens

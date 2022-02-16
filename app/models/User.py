@@ -28,7 +28,7 @@ class User(db.Model):
     MiddleName = db.Column(db.NVARCHAR(255),nullable=True)
     Surname = db.Column(db.NVARCHAR(255),nullable=False)
     LUID = db.Column(db.Integer)
-    CraneUserName = db.Column(db.NVARCHAR(255),nullable=False, unique=True)
+    UserName = db.Column(db.NVARCHAR(255),nullable=False, unique=True)
     LoginID = db.Column(db.NVARCHAR(255),nullable=True)
     LoginIDAlias = db.Column(db.NVARCHAR(255), nullable=True)
     UserCategory = db.Column(db.Enum(UserCatgoryEnum,
@@ -60,14 +60,13 @@ class User(db.Model):
     Comments = db.Column(db.NVARCHAR(500),nullable=True)
     OrganisationUserName = db.Column(db.NVARCHAR(255),nullable=True, default='Petroleum Authority of Uganda')
     ProfilePicture = db.Column(db.NVARCHAR(225), nullable=True)
-    CreatedById = db.Column(db.Integer)
     DateCreated = db.Column(db.DateTime,default=datetime.utcnow)
     ModifiedOn = db.Column(db.DateTime,default=datetime.utcnow,onupdate=db.func.current_timestamp())
     ModifiedBy = db.Column(db.NVARCHAR(255),nullable=True)
     RecordChangeStamp = db.Column(db.NVARCHAR(100),nullable=True)
     DefaultChangeDate = db.Column(db.DateTime,default=datetime.utcnow, onupdate=db.func.current_timestamp())
     PasswordChangeDate = db.Column(db.DateTime,default=db.func.current_timestamp(),nullable=True)
-    Applications = db.relationship('la_t_Applications', backref='la_t_User', lazy=True)
+    # Applications = db.relationship('Application', backref='la_t_User',lazy=True)
     
     def __repr__(self):
         return '<CraneUser {}>'.format(self.CraneUserName)

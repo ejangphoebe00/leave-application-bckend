@@ -1,5 +1,5 @@
 from flask import Blueprint, request, make_response, jsonify
-from ..models.User import User, UserCatgoryEnum
+from ..models.User import User
 from ..models.Token import RevokedTokenModel
 from ..models.LoginHistory import LoginHistory
 from flask_jwt_extended import (
@@ -9,7 +9,7 @@ from flask_jwt_extended import (
     get_jwt,
     get_jwt_identity
 )
-from datetime import datetime, timedelta
+from datetime import datetime
 from .helper_functions import send_security_alert_email, upload_file, reset_token, send_reset_email
 import traceback
 from ..models.PasswordReset import PasswordReset
@@ -47,17 +47,11 @@ def login():
         # update login history
         login_history = LoginHistory(
             UserId = user.UserId,
-            LoginStatusId = 0,   
             UserOnlineStatus = 1,
             LogLoginDate = datetime.now()
         )
         login_history.save()
-        # if user.UserCategory == UserCatgoryEnum.App_Admin:
-        #     user_role = "Application Admin"
-        # elif user.UserCategory == UserCatgoryEnum.Data_Admin:
-        #     user_role = "Data Admin"
-        # else:
-        #     user_role = "Staff"
+
         resp = jsonify({"UserId":user.UserId,"user_role":user.UserCategory,'access_token':access_token,
                         'refresh_token':refresh_token,'message':'Login Successful'
                     })
@@ -70,8 +64,6 @@ def login():
 @auth_bp.route('/user/registration', methods=['POST'])
 def register_user():
     """Create a user."""
-    current_user_email = get_jwt()
-    user = User.query.filter_by(UserEmailAddress=current_user_email['sub']).first()
     try:
         if request.is_json:
             data = request.get_json(force=True)
@@ -81,8 +73,8 @@ def register_user():
         if existing_user:
             return make_response(jsonify({'message': 'User already exists!'}), 400)
 
-        staff = User.query.filter(User.UserStaffId == data['UserStaffId']).first()
-        if staff and staff.UserStaffId != None:
+        staff = User.query.filter(User.StaffId == data['StaffId']).first()
+        if staff and staff.StaffId != None:
             return make_response(jsonify({'message': 'StaffID already exists!'}), 400)
 
         if User.query.filter(User.UserName==data['UserName']).first():
@@ -100,7 +92,7 @@ def register_user():
                         UserCategory = data['UserCategory'],
                         UserCompanyId = data['UserCompanyId'],
                         UserPremsUserId = data['UserPremsUserId'],
-                        UserStaffId = data['UserStaffId'],
+                        StaffId = data['StaffId'],
                         OrganisationName = data['OrganisationName'],
                         CredentialsSent = 1,
                         UserEmailAddress = data['UserEmailAddress'],
@@ -113,7 +105,6 @@ def register_user():
                         OrganisationUserName = data['OrganisationUserName'],
                         NextOfKinName = data['NextOfKinName'],
                         Directorate = data['Directorate'],
-                        CreatedById = user.UserId,
                         DeactivateAccount = 0,
                         LoginErrorCount = 0,
                         UserPassword = User.hash_password(data['UserPassword']),
@@ -180,8 +171,8 @@ def edit_profile(UserId):
         loggedin_user = User.query.filter_by(UserEmailAddress=current_user_email['sub']).first()
         
         # check for redundancy
-        staff = User.query.filter(User.UserStaffId == data['UserStaffId']).first()
-        if staff and staff.UserStaffId != None:
+        staff = User.query.filter(User.StaffId == data['StaffId']).first()
+        if staff and staff.StaffId != None:
             if UserId != staff.UserId:
                 return make_response(jsonify({'message': 'StaffID already exists!'}), 400)
 
@@ -200,7 +191,7 @@ def edit_profile(UserId):
         user.UserCategory = data['UserCategory']
         user.UserCompanyId = data['UserCompanyId']
         user.UserPremsUserId = data['UserPremsUserId']
-        user.UserStaffId = data['UserStaffId']
+        user.StaffId = data['StaffId']
         user.OrganisationName = data['OrganisationName']
         user.UserEmailAddress = data['UserEmailAddress']
         user.UserSecurityLevelId = data['UserSecurityLevelId']

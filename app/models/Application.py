@@ -24,8 +24,8 @@ class ApprovalStatusEnum(str, enum.Enum):
 class Application(db.Model):
     __tablename__ = 'la_t_Applications'
     ApplicationId = db.Column(db.Integer,primary_key=True)
-    ApplicantLevel = db.Column(db.Integer, db.ForeignKey(User.UserId),nullable=False) 
-    Designation = db.Column(db.Enum(ApplicantLevelEnum,
+    Designation = db.Column(db.VARCHAR(100),nullable=False) 
+    ApplicantLevel = db.Column(db.Enum(ApplicantLevelEnum,
                                      values_callable=lambda x: [str(e.value) for e in ApplicantLevelEnum]),
                                      nullable=False) 
     ApplicantId = db.Column(db.Integer, db.ForeignKey(User.UserId),nullable=False) 
@@ -48,8 +48,16 @@ class Application(db.Model):
     ApprovedOrDeclinedBy = db.Column(db.Integer, db.ForeignKey(User.UserId)) 
     CreationDate = db.Column(db.DateTime,default=datetime.utcnow)
     UpdateDate = db.Column(db.DateTime,default=datetime.utcnow,onupdate=db.func.current_timestamp())
-    AddressDetails = db.relationship('la_t_Address', backref='la_t_Applications', lazy=True)
-    Recommendations = db.relationship('la_t_Recommendations', backref='la_t_Applications', lazy=True)
+
+    # since there's only one foreign key in these respective tables....
+    AddressDetails = db.relationship('Address', backref='la_t_Applications', lazy=True)
+    Recommendations = db.relationship('Recommendations', backref='la_t_Applications', lazy=True)
+
+    # since there are many foregn keys to the user table, advisable to declare relationships like this
+    Computed = db.relationship("User", foreign_keys=[ComputedBy])
+    Verified = db.relationship("User", foreign_keys=[VerifiedBy])
+    ApprovedOrDeclined = db.relationship("User", foreign_keys=[ApprovedOrDeclinedBy])
+    Applicant = db.relationship("User", foreign_keys=[ApplicantId])
 
 
     def serialise(self):
