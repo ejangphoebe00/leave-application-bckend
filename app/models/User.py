@@ -69,7 +69,7 @@ class User(db.Model):
     # Applications = db.relationship('Application', backref='la_t_User',lazy=True)
     
     def __repr__(self):
-        return '<CraneUser {}>'.format(self.CraneUserName)
+        return '<CraneUser {}>'.format(self.UserName)
     
     def serialise(self):
         '''serialize model object into json object'''
