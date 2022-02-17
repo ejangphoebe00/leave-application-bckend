@@ -12,7 +12,7 @@ from flask_jwt_extended import (
     get_jwt_identity
 )
 from .. import db
-from datetime import datetime
+from .helper_functions import send_email
 
 application_bp = Blueprint('application_bp', __name__)
 
@@ -55,6 +55,11 @@ def apply_for_leave():
             db.session.add(address)
             db.session.flush()
         db.session.commit()
+        # send email notification to applicant
+        send_email(get_jwt_identity(), f'''Your leave application has been received. You will be notified once a decision is made.''')
+        # send email notification to HR
+        send_email(get_jwt_identity(), f'''You have a leave application to review.''')
+        
         resp = jsonify({'message': 'Application created successfully'})
         return make_response(resp, 201)
     except:
@@ -171,6 +176,8 @@ def compute_application(ApplicationId):
         application.update()
 
         resp = jsonify({'message': 'Computation added'})
+        # send email notification for application approval
+        send_email(get_jwt_identity(), f'''You have a leave application to review.''')
         return make_response(resp, 200)
     except:
         return make_response(str(traceback.format_exc()),500)

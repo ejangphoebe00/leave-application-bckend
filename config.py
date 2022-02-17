@@ -28,14 +28,14 @@ class Config(object):
     # ALLOWED_EXTENSIONS = ['.pdf']
 
     # Mail Configs
-    # MAIL_SERVER = environ.get('MAIL_SERVER')
-    # MAIL_PORT = environ.get('MAIL_PORT')
-    # MAIL_USE_TLS = True
-    # MAIL_USE_SSL = False
-    # MAIL_USERNAME = environ.get('MAIL_USERNAME')
-    # MAIL_PASSWORD = str(environ.get('MAIL_PASSWORD'))
-    # MAIL_DEFAULT_SENDER = environ.get('MAIL_DEFAULT_SENDER')
-    # SECURITY_PASSWORD_SALT = environ.get('SECURITY_PASSWORD_SALT')
+    MAIL_SERVER = environ.get('MAIL_SERVER')
+    MAIL_PORT = environ.get('MAIL_PORT')
+    MAIL_USE_TLS = True
+    MAIL_USE_SSL = False
+    MAIL_USERNAME = environ.get('MAIL_USERNAME')
+    MAIL_PASSWORD = str(environ.get('MAIL_PASSWORD'))
+    MAIL_DEFAULT_SENDER = environ.get('MAIL_DEFAULT_SENDER')
+    SECURITY_PASSWORD_SALT = environ.get('SECURITY_PASSWORD_SALT')
 
     # pagination
     NUM_OF_ITEMS_PER_PAGE = 18

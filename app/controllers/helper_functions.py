@@ -10,7 +10,7 @@ def reset_token():
     return uuid4()
 
 def send_reset_email(email,url):
-    msg = Message('Geosims Password Reset Request',
+    msg = Message('PAU Leave Application Password Reset Request',
                   recipients=[email])
     msg.body = f'''To reset your password, visit the following link:
 {url}
@@ -20,11 +20,15 @@ If you did not make this request then simply ignore this email and no changes wi
 
 
 def send_security_alert_email(email):
-    msg = Message('Geosims Security Alert!',
+    msg = Message('PAU Leave Application Security Alert!',
                   recipients=[email])
-    msg.body = f'''Someone has been trying to access your account, head over to the Geo-Samples Information Management System and change your password.
+    msg.body = f'''Someone has been trying to access your account, head over to the PAU Leave Application System and change your password.
 If this was you, kindly ignore this message.
 '''
+    mail.send(msg)
+def send_email(email, body):
+    msg = Message('PAU Leave Application', recipients=[email])
+    msg.body = body
     mail.send(msg)
 
 def upload_file(file):
