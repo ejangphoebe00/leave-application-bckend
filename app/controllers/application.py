@@ -151,6 +151,8 @@ def get_all_applications():
             application_i = application.serialise()
             application_i['AddressDetails'] = [z.serialise() for z in application.AddressDetails]
             application_i['Recommendations'] = [z.serialise() for z in application.Recommendations]
+            applicant = application.Applicant.serialise()
+            application_i['ApplicantName'] = applicant.get('FirstName') + ' ' + applicant.get('Surname')
             modified_applications_obj = {**application_i}
             modified_applications_objs.append(modified_applications_obj)
         resp = jsonify(modified_applications_objs)
